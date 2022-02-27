@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+   
+</head>
+<style>
+   
+
+   .container {
+       margin-top: -48px;
+       margin-left: -40px;
+  position: relative;
+  width: 100%;
+}
+
+.text-block {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  background-color: black;
+  color: white;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+    #kl{
+        color: hotpink;
+        margin-left: 550px;
+        
+        font-size: 50px;
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    }
+    #rav{
+       margin-left:-63px;
+        width: 1270px;
+        height: 670px;
+    }
+</style>
+
+<body>
+    
+   {{>nav}}
+    <div class="container">
+       
+        
+        <img name="slide" width="400" height="200" id="rav">
+        <div class="text-block">
+    <h4>Nature</h4>
+    <p>What a beautiful sunrise</p>
+  </div>
+   </h1>
+     </div>
+    
+   
+</body>
+<script>
+    var i=0
+    var time=6000
+    var images = ["https://images.pexels.com/photos/842711/pexels-photo-842711.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500", 
+    "https://images.pexels.com/photos/1525041/pexels-photo-1525041.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500", 
+    "https://images.pexels.com/photos/1435075/pexels-photo-1435075.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500", 
+    "https://images.pexels.com/photos/1526713/pexels-photo-1526713.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
+        "https://images.pexels.com/photos/1496373/pexels-photo-1496373.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
+        "https://images.unsplash.com/photo-1582634424802-b4a94fcfbce6?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MjN8fGZyZWV8ZW58MHx8MHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60", "https://images.unsplash.com/photo-1495395226200-8fbf6b720b8c?ixid=MXwxMjA3fDB8MHxzZWFyY2h8Mjd8fGZyZWV8ZW58MHx8MHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60", "https://images.unsplash.com/photo-1550041771-aef92f14a6d5?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MzB8fGZyZWV8ZW58MHx8MHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60", "https://images.unsplash.com/photo-1533154613417-407cfcf6abb2?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MzF8fGZyZWV8ZW58MHx8MHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60", "https://images.unsplash.com/photo-1589131489228-8cf7c794dcd3?ixid=MXwxMjA3fDB8MHxzZWFyY2h8Mzd8fGZyZWV8ZW58MHx8MHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60"]
+
+function changeimg(){
+    document.slide.src=images[i]
+    if(i<images.length-1){
+        i++
+    }
+    else{
+        i=0
+    }
+    setTimeout("changeimg()",time)
+}
+window.onload=changeimg
+
+</script>
+
+</html>
