@@ -1,0 +1,236 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+
+    <div>
+
+        <button id="getbutton"style="height:40px;width:60px">getbbuton</button>
+        <video src="'https://media.istockphoto.com/videos/redhead-woman-talk-to-webcam-participate-in-videoconference-video-id1308698683'"  controls id="yourvideo"></video>
+
+
+
+        <div>
+            <label for="filePicker">Choose or drag a file:</label><br>
+            <input type="file" id="filePicker">
+        </div>
+        <br>
+        <div>
+            <h1>Base64 encoded version</h1>
+            <textarea id="base64textarea" placeholder="Base64 will appear here" cols="50" rows="15"></textarea>
+        </div>
+    </div><br>
+    <button id="playvideo">play</button><br>
+    <button id="blobvideo">blob</button>
+
+<video src=""  controls id="myvideo"></video>
+
+
+
+</body>
+
+<script>
+//------------------------------------upload video----------------------------------------------------
+var handleFileSelect = function(evt) {
+    var files = evt.target.files;
+    var file = files[0];
+
+    if (files && file) {
+        var reader = new FileReader();
+
+        reader.onload = function(readerEvt) {
+            var binaryString = readerEvt.target.result;
+            document.getElementById("base64textarea").value = btoa(binaryString);
+           // console.log(btoa(binaryString))
+          
+
+        };
+
+       // callback( document.getElementById("base64textarea").value)
+        reader.readAsBinaryString(file);
+    }
+};
+
+
+
+if (window.File && window.FileReader && window.FileList && window.Blob) {
+    document.getElementById('filePicker').addEventListener('change', handleFileSelect, false);
+} else {
+    alert('The File APIs are not fully supported in this browser.');
+}
+//-------------------------------------------------------------------------------------------------------
+
+
+
+//----------------------------using link--------------------------------------------------------------------
+
+document.getElementById('getbutton').addEventListener('click',function(){
+
+
+
+var video=document.getElementById('yourvideo');
+//.crossOrigin='Anonymous';
+
+
+video.onloadstart=function(){
+  
+    //var reader = new FileReader();
+    var canvas=document.createElement('canvas');
+    var ctx=canvas.getContext('2d');
+    canvas.height=this.naturalHeight;
+    canvas.width=this.naturalWidth;
+    ctx.drawImage(this,0,0);
+    var data=canvas.toDataURL('video/mp4');
+console.log("dsafaf")
+ console.log(data)
+   filename="newfile"
+    document.getElementById("base64textarea").value=data;
+
+
+
+
+//reader.readAsDataURL('https://media.istockphoto.com/videos/redhead-woman-talk-to-webcam-participate-in-videoconference-video-id1308698683');
+
+
+
+//    console.log(data)
+//   filename="newfile"
+//     document.getElementById('result').value=data;
+
+
+
+
+
+//    var urlCreator = window.URL || window.webkitURL;
+//     const blob = data.blob();
+//         var imageUrl = urlCreator.createObjectURL(blob);
+//         var tag = document.createElement('a');
+//         tag.href = imageUrl;
+//         tag.download = fileName;
+//         document.body.appendChild(tag);
+//         tag.click();
+//         document.body.removeChild(tag);
+
+}
+
+})
+
+//--------------------------fetch-------------------------------------------------------------------
+fetch('https://media.istockphoto.com/videos/redhead-woman-talk-to-webcam-participate-in-videoconference-video-id1308698683')
+  .then(res => res.blob()) // Gets the response and returns it as a blob
+  .then(blob => {
+
+    localStorage.setItem('myblob',blob)
+   
+    // Here, I use it to make an image appear on the page
+    let objectURL = URL.createObjectURL(blob);
+   // let myImage = new Image();
+   console.log(objectURL)
+localStorage.setItem('myblob',objectURL)
+   myvideo=document.getElementById('yourvideo')
+    myvideo.src = objectURL;
+    //document.getElementById('myImg').appendChild(myImage)
+});
+
+
+
+//---------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//-----------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+document.getElementById('playvideo').addEventListener('click',function(){
+//function callback(mydata){
+    
+let mydata=document.getElementById("base64textarea").value;
+console.log(mydata)
+document.getElementById('myvideo').src=`data:video/mp4;base64,${mydata}`
+
+//}
+})
+
+const b64toBlob = (b64Data, contentType='', sliceSize=512) => {
+  const byteCharacters = atob(b64Data);
+  const byteArrays = [];
+
+  for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+    const slice = byteCharacters.slice(offset, offset + sliceSize);
+
+    const byteNumbers = new Array(slice.length);
+    for (let i = 0; i < slice.length; i++) {
+      byteNumbers[i] = slice.charCodeAt(i);
+    }
+
+    const byteArray = new Uint8Array(byteNumbers);
+    byteArrays.push(byteArray);
+  }
+
+  console.log(byteArrays)
+  const blob = new Blob(byteArrays, {type: contentType});
+  return blob;
+}
+
+
+document.getElementById('blobvideo').addEventListener('click',function(){
+
+
+let mydata=document.getElementById("base64textarea").value;
+
+//const blob = b64toBlob(mydata, 'video/mp4');
+blob=localStorage.getItem('myblob')
+//const blobUrl = URL.createObjectURL(blob);
+
+var urlCreator = window.URL || window.webkitURL;
+   // var videoUrl = urlCreator.createObjectURL(blob);
+    var tag = document.createElement('a');
+    tag.href = blob;
+    tag.download ='videofile';
+    document.body.appendChild(tag);
+    tag.click();
+    document.body.removeChild(tag);
+
+})
+
+</script>
+
+
+</html>

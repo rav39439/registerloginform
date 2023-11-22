@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+  <img src="https://presscs.com/wp-content/uploads/2017/05/chicken-biryani-recipe.jpg" id="img" height="400px" width="500px" alt="">
+<textarea id="result"></textarea>
+
+<img src="" id="mysample" alt="">
+
+
+
+<img src="" id="newimg" alt="">
+
+<button id="showimage">getimage</button>
+
+<button id="blobimage">createblob</button>
+
+
+
+<div id="myblobfile">
+
+</div>
+</body>
+<script>
+
+var img=document.getElementById('img');
+img.crossOrigin='Anonymous';
+img.onload=function(){
+    var canvas=document.createElement('canvas');
+    var ctx=canvas.getContext('2d');
+    canvas.height=this.naturalHeight;
+    canvas.width=this.naturalWidth;
+    ctx.drawImage(this,0,0);
+    var data=canvas.toDataURL('image/jpg');
+
+    console.log(data)
+   filename="newfile"
+    document.getElementById('result').value=data;
+
+    var urlCreator = window.URL || window.webkitURL;
+    // const blob = data.blob();
+    //     var imageUrl = urlCreator.createObjectURL(blob);
+    //     var tag = document.createElement('a');
+    //     tag.href = imageUrl;
+    //     tag.download = fileName;
+    //     document.body.appendChild(tag);
+    //     tag.click();
+    //     document.body.removeChild(tag);
+
+}
+
+document.getElementById('showimage').addEventListener('click',function(){
+let mydata=document.getElementById('result').value;
+    if(mydata){
+data= mydata.split(',')[1];
+
+
+
+
+console.log(data)
+        document.getElementById('newimg').src=`data:image/jpg;base64,${data}`
+        
+
+       // console.log(newblob)
+    }
+
+
+})
+
+
+const b64toBlob = (b64Data, contentType='', sliceSize=512) => {
+  const byteCharacters = atob(b64Data);
+  const byteArrays = [];
+
+  for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+    const slice = byteCharacters.slice(offset, offset + sliceSize);
+
+    const byteNumbers = new Array(slice.length);
+    for (let i = 0; i < slice.length; i++) {
+      byteNumbers[i] = slice.charCodeAt(i);
+    }
+
+    const byteArray = new Uint8Array(byteNumbers);
+    byteArrays.push(byteArray);
+  }
+
+  console.log(byteArrays)
+  const blob = new Blob(byteArrays, {type: contentType});
+  return blob;
+}
+
+
+
+
+
+
+
+document.getElementById('blobimage').addEventListener('click',function(){
+
+
+    let mydata=document.getElementById('result').value;
+    data= mydata.split(',')[1];
+
+    const blob = b64toBlob(data, 'image/jpg');
+const blobUrl = URL.createObjectURL(blob);
+
+//window.location = blobUrl;
+var urlCreator = window.URL || window.webkitURL;
+        var imageUrl = urlCreator.createObjectURL(blob);
+        var tag = document.createElement('a');
+        tag.href = imageUrl;
+        tag.download ='newfile';
+        document.body.appendChild(tag);
+        tag.click();
+        document.body.removeChild(tag);
+
+})
+
+
+fetch('https://upload.wikimedia.org/wikipedia/commons/7/77/Delete_key1.jpg')
+  .then(res => res.blob()) // Gets the response and returns it as a blob
+  .then(blob => {
+    // Here's where you get access to the blob
+    // And you can use it for whatever you want
+    // Like calling ref().put(blob)
+
+    // Here, I use it to make an image appear on the page
+    let objectURL = URL.createObjectURL(blob);
+   // let myImage = new Image();
+
+   myImage=document.getElementById('mysample')
+    myImage.src = objectURL;
+    //document.getElementById('myImg').appendChild(myImage)
+});
+
+</script>
+
+</html>
